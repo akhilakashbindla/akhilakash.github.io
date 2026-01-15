@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Akhil Akash Bindla - Cybersecurity and Software Engineering Portfolio">
+    <title>Akhil Akash Bindla - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text x='50%' y='50%' font-size='18' text-anchor='middle' dominant-baseline='middle' fill='%2300f7ff'>🛡️</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+</head>
+<body>
+    <!-- Dark / Light Mode Toggle -->
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" />
+        <label for="theme-switch" class="toggle-label">
+            <span class="sun">Sun</span>
+            <span class="moon">Moon</span>
+        </label>
+    </div>
+
+    <!-- 3D Background (subtle glow) -->
+    <div id="bg-3d"></div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#talks">Talks</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="container">
+        <section id="home" class="hero glass-card" data-tilt>
+            <img src="images/your-photo.jpg" alt="Akhil Akash Bindla" class="avatar-img">
+            <h1>Akhil Akash Bindla</h1>
+            <h2>Cybersecurity Enthusiast | Software Engineer | AI Explorer</h2>
+            <p>Hi, I'm Akhil Akash Bindla — a passionate cybersecurity and software engineer specializing in building secure and intelligent systems.</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn">View Projects</a>
+                <a href="resume.pdf" download class="btn">Download Resume</a>
+                <a href="#contact" class="btn">Let's Connect</a>
+            </div>
+        </section>
+
+        <section id="about" class="section glass-card" data-tilt>
+            <h2>About Me</h2>
+            <p>From my roots in Computer Engineering, I’ve honed my expertise in cybersecurity, driven by a passion for securing digital systems. My journey blends coding, penetration testing, and AI-driven solutions, fueled by curiosity, responsibility, integrity, and innovation.</p>
+            <div class="linkedin-badge">
+                <a href="https://linkedin.com/in/akhilakashbindla" target="_blank">
+                    <div id="linkedin-3d"></div>
+                </a>
+            </div>
+        </section>
+
+        <section id="experience" class="section glass-card" data-tilt>
+            <h2>Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-logo" id="cdac-3d"></div>
+                    <h3>CDAC | Intern | [Month Year] - [Month Year]</h3>
+                    <p>Developed secure APIs and conducted penetration testing.</p>
+                    <ul>
+                        <li>Tools: Python, Wireshark, Nmap</li>
+                        <li>Impact: Reduced vulnerabilities by 30%</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-logo" id="eduversity-3d"></div>
+                    <h3>Eduversity | Teaching Assistant | [Month Year] - [Month Year]</h3>
+                    <p>Taught cybersecurity basics and Python programming.</p>
+                    <ul>
+                        <li>Tools: Python, Kali Linux</li>
+                        <li>Impact: Trained 50+ students</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-logo" id="swecha-3d"></div>
+                    <h3>Swecha | Contributor | [Month Year] - [Month Year]</h3>
+                    <p>Contributed to open-source security tools.</p>
+                    <ul>
+                        <li>Tools: Git, Python, Flask</li>
+                        <li>Impact: Improved tool efficiency by 20%</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="section glass-card" data-tilt>
+            <h2>Education</h2>
+            <div class="education-card">
+                <h3>M.Tech in Computer Science and Engineering (Cybersecurity)</h3>
+                <p>[University College of Engineering, Osmania University ], 2023- 2025, CGPA: 8.2</p>
+                <p>Course Highlights: Cybersecurity, Machine Learning, Web Development</p>
+                <p>Certifications: Cisco PCAP – Python Essentials</p>
+            </div>
+        </section>
+
+        <section id="projects" class="section glass-card" data-tilt>
+            <h2>Projects</h2>
+            <div class="project-grid">
+                <a href="projects/usb.html" class="project-item" target="_blank">
+                    <div class="icon">USB</div>
+                    <h3>USB Rubber Ducky Defender <span class="badge">ML | Cybersecurity</span></h3>
+                    <p>ML model to detect malicious USBs with 99.85% accuracy.</p>
+                    <span class="view-more">View Details</span>
+                </a>
+                <a href="projects/gnn.html" class="project-item" target="_blank">
+                    <div class="icon">Graph</div>
+                    <h3>GNN-DTA for 5G Intrusion Detection</h3>
+                    <p>Graph Neural Network for real-time 5G attack detection.</p>
+                    <span class="view-more">View Details</span>
+                </a>
+                <!-- Add new projects here easily, e.g.:
+                <a href="projects/new-project.html" class="project-item" target="_blank">
+                    <div class="icon">Icon</div>
+                    <h3>New Project Title</h3>
+                    <p>Brief description.</p>
+                    <span class="view-more">View Details</span>
+                </a> -->
+            </div>
+        </section>
+
+        <section id="skills" class="section glass-card" data-tilt>
+            <h2>Skills Matrix</h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="skill-icon">Lock</div>
+                    <h3>Penetration Testing</h3>
+                    <p>Nmap, Metasploit, Burp Suite, Wireshark</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon">Brain</div>
+                    <h3>AI & ML Security</h3>
+                    <p>Adversarial ML, Model Poisoning, GNNs</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon">Code</div>
+                    <h3>Secure Coding</h3>
+                    <p>Python, C++, Rust, OWASP Top 10</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon">Network</div>
+                    <h3>Network Defense</h3>
+                    <p>IDS/IPS, 5G Security, SDN</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications" class="section glass-card" data-tilt>
+            <h2>Achievements & Certifications</h2>
+            <div class="achieve-grid">
+                <div class="achieve-item">
+                    <img src="images/certs/ceh.png" alt="CEH">
+                    <h3>Certified Ethical Hacker (CEH)</h3>
+                    <p>EC-Council | 2024</p>
+                </div>
+                <div class="achieve-item">
+                    <img src="images/certs/comptia-sec.png" alt="CompTIA Security+">
+                    <h3>CompTIA Security+</h3>
+                    <p>CompTIA | 2023</p>
+                </div>
+                <div class="achieve-item">
+                    <img src="images/certs/internship.png" alt="DRDO Internship">
+                    <h3>DRDO Internship</h3>
+                    <p>AI-based Intrusion Detection | 6 Months</p>
+                </div>
+                <div class="achieve-item">
+                    <img src="images/certs/hackathon.png" alt="Hackathon Winner">
+                    <h3>1st Place – National Cyber Hackathon</h3>
+                    <p>Built USB Ducky Defender | 2024</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="talks" class="section glass-card" data-tilt>
+            <h2>Talks & Activities</h2>
+            <div class="talk-card">
+                <h3>Cybersecurity Workshop</h3>
+                <p>Conducted a workshop on penetration testing for 200+ students.</p>
+                <p>[Placeholder for PDF preview]</p>
+            </div>
+            <div class="talk-card">
+                <h3>Hackathon: [Event Name]</h3>
+                <p>Participated in [Year], developed a secure API.</p>
+                <p>[Placeholder for PDF preview]</p>
+            </div>
+        </section>
+
+        <section id="testimonials" class="section glass-card" data-tilt>
+            <h2>Testimonials</h2>
+            <div class="testimonial">
+                <p>"Akhil’s dedication to cybersecurity is unmatched." – [Mentor/Supervisor Name], [Role]</p>
+            </div>
+            <div class="testimonial">
+                <p>"Akhil’s innovative solutions stood out during our internship." – [Supervisor Name], [Company]</p>
+            </div>
+        </section>
+
+        <section id="blog" class="section glass-card" data-tilt>
+            <h2>Blog</h2>
+            <div class="blog-post">
+                <h3>How I Built a USB Ducky Hunter</h3>
+                <p>Exploring the ML techniques behind USB threat detection.</p>
+                <a href="https://medium.com/@akhilakashbindla" class="btn">Read on Medium</a>
+            </div>
+            <div class="blog-post">
+                <h3>Why Open Port Exploitation Still Matters</h3>
+                <p>Analyzing modern network vulnerabilities.</p>
+                <a href="https://hashnode.com/@akhilakashbindla" class="btn">Read on Hashnode</a>
+            </div>
+        </section>
+
+        <section id="contact" class="section glass-card" data-tilt>
+            <h2>Contact</h2>
+            <p>Email: <a href="mailto:akhilakashbindla@example.com">akhilakashbindla@example.com</a></p>
+            <p>Mobile: +91-1234567890</p>
+            <p>LinkedIn: <a href="https://linkedin.com/in/akhilakashbindla">linkedin.com/in/akhilakashbindla</a></p>
+            <p>GitHub: <a href="https://github.com/akhilakashbindla">github.com/akhilakashbindla</a></p>
+            <a href="resume.pdf" download class="btn">Download CV</a>
+            <form action="https://formspree.io/f/your-form-id" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>"Security is not a product, but a process." – Bruce Schneier</p>
+        <p>Built by Akhil Akash Bindla</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+    <script src="js/tilt.js"></script>
+</body>
+</html>

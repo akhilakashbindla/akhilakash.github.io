@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akhil Akash Bindla - Secure Access</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/typeit@8.7.1/dist/index.umd.js"></script>
+</head>
+<body>
+    <div id="intro-container">
+        <!-- Stage 1: Terminal Console -->
+        <div id="terminal-stage" class="stage">
+            <div class="terminal">
+                <div id="terminal-output"></div>
+                <div class="input-line">
+                    <span>> </span>
+                    <span id="terminal-input"></span>
+                    <span class="cursor"></span>
+                </div>
+            </div>
+        </div>
+        <!-- Stage 2: Firewall Bypass -->
+        <div id="firewall-stage" class="stage" style="display: none;">
+            <div class="firewall">
+                <h2>Access Blocked by Internal Firewall Rules</h2>
+                <p>Select the correct actions to bypass:</p>
+                <div class="firewall-options">
+                    <button class="firewall-btn" data-correct="true" title="🔍 Scan network ports safely">Analyze Ports using Nmap</button>
+                    <button class="firewall-btn" data-correct="false" title="🚫 Risky and unauthorized">Disable UFW Firewall</button>
+                    <button class="firewall-btn" data-correct="true" title="🛡️ Identify vulnerabilities securely">Run Nessus Vulnerability Scan</button>
+                    <button class="firewall-btn" data-correct="false" title="🚫 Potential malware risk">Execute Unverified Script</button>
+                </div>
+                <div id="firewall-logs"></div>
+                <p id="firewall-status"></p>
+            </div>
+        </div>
+        <!-- Stage 3: Decryption Animation -->
+        <div id="decryption-stage" class="stage" style="display: none;">
+            <canvas id="matrix-rain"></canvas>
+            <div class="decryption">
+                <h2>Decrypting Secure Interface...</h2>
+                <div id="decryption-logs"></div>
+                <p id="decryption-complete" class="glitch" data-text="✅ Decryption Complete">✅ Decryption Complete</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Keystroke sound effect
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        function playKeystroke() {
+            const oscillator = ctx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            oscillator.connect(gain);
+            gain.connect(ctx.destination);
+            oscillator.start();
+            oscillator.stop(ctx.currentTime + 0.05);
+        }
+
+        // Voice playback
+        function playVoice() {
+            const utterance = new SpeechSynthesisUtterance("Decryption complete. Welcome to Akhil Akash Bindla's portfolio.");
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Stage 1: Terminal Console
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalStage = document.getElementById('terminal-stage');
+        const firewallStage = document.getElementById('firewall-stage');
+
+        new TypeIt('#terminal-output', {
+            speed: 50,
+            afterStep: () => playKeystroke(),
+            afterComplete: () => {
+                new TypeIt('#terminal-input', {
+                    strings: 'akhil_2025_init()',
+                    speed: 100,
+                    afterStep: () => playKeystroke(),
+                    afterComplete: () => {
+                        terminalOutput.innerHTML += `
+                            <p>Authenticating user: Akhil Akash Bindla</p>
+                            <p>Clearance Level: Top Secret [██████████]</p>
+                            <p>Login: admin</p>
+                            <p>Password: ********</p>
+                            <p>✅ Access granted.</p>
+                        `;
+                        terminalStage.classList.add('scroll-out');
+                        setTimeout(() => {
+                            terminalStage.style.display = 'none';
+                            firewallStage.style.display = 'block';
+                        }, 1000);
+                    }
+                }).go();
+            }
+        })
+        .type('>> IP: 103.XXX.XX.1 | Location: Hyderabad, India<br>')
+        .pause(500)
+        .type('>> Device: Windows 10, Chrome 138<br>')
+        .pause(500)
+        .type('Connecting to akhilakash.dev...<br>')
+        .pause(500)
+        .type('Initializing secure interface...<br>')
+        .pause(500)
+        .type('>> Enter access code:')
+        .go();
+
+        // Stage 2: Firewall Bypass
+        const firewallButtons = document.querySelectorAll('.firewall-btn');
+        const firewallLogs = document.getElementById('firewall-logs');
+        const firewallStatus = document.getElementById('firewall-status');
+        const decryptionStage = document.getElementById('decryption-stage');
+        let correctSelections = 0;
+        let isCooldown = false;
+
+        firewallButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (isCooldown) return;
+                if (btn.getAttribute('data-correct') === 'true') {
+                    btn.style.background = '#00f7ff';
+                    correctSelections++;
+                    firewallLogs.innerHTML += btn.textContent.includes('Nmap') ?
+                        `<p>➜ Running: nmap -sV -p- akhilakash.dev</p>
+                         <p>[PORT 22] SSH – OPEN</p>
+                         <p>[PORT 443] HTTPS – OPEN</p>` :
+                        `<p>➜ Running: Nessus vulnerability scan</p>
+                         <p>[VULN] No critical issues detected</p>`;
+                } else {
+                    btn.style.background = '#ff5555';
+                    firewallStatus.textContent = '❌ Unauthorized firewall modification detected. Logging activity...';
+                    isCooldown = true;
+                    setTimeout(() => {
+                        firewallStatus.textContent = '';
+                        btn.style.background = '#333';
+                        isCooldown = false;
+                    }, 3000);
+                }
+                if (correctSelections === 2) {
+                    firewallStatus.textContent = '✅ Firewall bypass successful. Proceeding to data decryption...';
+                    setTimeout(() => {
+                        firewallStage.style.display = 'none';
+                        decryptionStage.style.display = 'block';
+                        startDecryption();
+                    }, 1000);
+                }
+            });
+        });
+
+        // Stage 3: Decryption Animation
+        function startDecryption() {
+            const logs = document.getElementById('decryption-logs');
+            const completeText = document.getElementById('decryption-complete');
+            const logMessages = [
+                '▶️ Starting AES-256 decryption...',
+                '🔍 Signature verified...',
+                '📄 Decrypting: Resume, Projects, Skills',
+                '✅ Decryption complete.'
+            ];
+            let logIndex = 0;
+
+            // Matrix rain
+            const canvas = document.getElementById('matrix-rain');
+            const ctx = canvas.getContext('2d');
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+            const chars = '01';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(0);
+
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(26, 26, 26, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#00f7ff';
+                ctx.font = `${fontSize}px 'Roboto'`;
+                drops.forEach((y, i) => {
+                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                    ctx.fillText(text, i * fontSize, y * fontSize);
+                    if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                });
+            }
+            setInterval(drawMatrix, 50);
+
+            // Decryption logs
+            const logInterval = setInterval(() => {
+                if (logIndex < logMessages.length) {
+                    logs.innerHTML += `<p>${logMessages[logIndex]}</p>`;
+                    logIndex++;
+                }
+                if (logIndex === logMessages.length) {
+                    clearInterval(logInterval);
+                    completeText.style.display = 'block';
+                    playVoice();
+                    setTimeout(() => {
+                        window.location.href = 'index.html'; // Redirect to main portfolio after animation
+                    }, 2000);
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

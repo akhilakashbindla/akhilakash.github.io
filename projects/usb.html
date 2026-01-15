@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USB Rubber Ducky Defender - Akhil Akash Bindla</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+</head>
+<body>
+    <!-- Dark / Light Mode Toggle -->
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" />
+        <label for="theme-switch" class="toggle-label">
+            <span class="sun">Sun</span>
+            <span class="moon">Moon</span>
+        </label>
+    </div>
+
+    <!-- 3D Background -->
+    <div id="bg-3d"></div>
+
+    <nav>
+        <a href="../index.html">Back to Portfolio</a>
+    </nav>
+
+    <div class="container">
+        <section class="glass-card" data-tilt>
+            <h1>USB Rubber Ducky Defender</h1>
+            <p><strong>Overview:</strong> This project involves an ML model to detect malicious USB devices (like Rubber Ducky) with 99.85% accuracy. It analyzes USB packet data in real-time to prevent unauthorized keystroke injections and data exfiltration.</p>
+            <p><strong>Tech Stack:</strong> Python, RandomForestClassifier, Scikit-learn, Scapy for packet analysis.</p>
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li>Feature extraction from USB HID reports and packet metadata.</li>
+                <li>Trained on a custom dataset of 10K samples (benign vs. malicious USB behaviors).</li>
+                <li>Deployment: Integrated with a Streamlit dashboard for real-time monitoring.</li>
+                <li>Challenges Overcome: Handling noisy packet data and achieving low false positives (0.15%).</li>
+            </ul>
+            <p><strong>Results:</strong> Reduced detection time to under 1 second; tested on Kali Linux with simulated attacks.</p>
+            <p><strong>Future Enhancements:</strong> Add deep learning for anomaly detection and support for more USB protocols.</p>
+            <a href="https://github.com/akhilakashbindla/usb-detector" class="btn">View Code on GitHub</a>
+            <a href="../resume.pdf" download class="btn">Download Resume</a>
+        </section>
+    </div>
+
+    <script src="../js/scripts.js"></script>
+    <script src="../js/tilt.js"></script>
+</body>
+</html>
