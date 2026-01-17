@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="intro-container">
-        <!-- Terminal Stage -->
+        <!-- Stage 1: Terminal Console -->
         <div id="terminal-stage" class="stage">
             <div class="terminal">
                 <div id="terminal-output"></div>
@@ -22,12 +22,35 @@
             </div>
         </div>
 
-        <!-- Firewall & Decryption stages remain the same -->
-        <!-- ... paste the firewall-stage and decryption-stage from previous version here ... -->
+        <!-- Stage 2: Firewall Bypass -->
+        <div id="firewall-stage" class="stage" style="display: none;">
+            <div class="firewall">
+                <h2>Access Blocked by Internal Firewall Rules</h2>
+                <p>Select the correct actions to bypass:</p>
+                <div class="firewall-options">
+                    <button class="firewall-btn" data-correct="true" title="🔍 Scan network ports safely">Analyze Ports using Nmap</button>
+                    <button class="firewall-btn" data-correct="false" title="🚫 Risky and unauthorized">Disable UFW Firewall</button>
+                    <button class="firewall-btn" data-correct="true" title="🛡️ Identify vulnerabilities securely">Run Nessus Vulnerability Scan</button>
+                    <button class="firewall-btn" data-correct="false" title="🚫 Potential malware risk">Execute Unverified Script</button>
+                </div>
+                <div id="firewall-logs"></div>
+                <p id="firewall-status"></p>
+            </div>
+        </div>
+
+        <!-- Stage 3: Decryption Animation -->
+        <div id="decryption-stage" class="stage" style="display: none;">
+            <canvas id="matrix-rain"></canvas>
+            <div class="decryption">
+                <h2>Decrypting Secure Interface...</h2>
+                <div id="decryption-logs"></div>
+                <p id="decryption-complete" class="glitch" data-text="✅ Decryption Complete">✅ Decryption Complete</p>
+            </div>
+        </div>
     </div>
 
     <script>
-        // ── Keystroke & Voice (unchanged) ───────────────────────────────────────────────
+        // Keystroke sound effect
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         function playKeystroke() {
             const oscillator = ctx.createOscillator();
@@ -41,6 +64,7 @@
             oscillator.stop(ctx.currentTime + 0.05);
         }
 
+        // Voice playback
         function playVoice() {
             const utterance = new SpeechSynthesisUtterance("Decryption complete. Welcome to Akhil Akash Bindla's portfolio.");
             utterance.rate = 1;
@@ -48,30 +72,23 @@
             window.speechSynthesis.speak(utterance);
         }
 
-        // ── Enhanced Device/Browser Detection ───────────────────────────────────────────
+        // Enhanced Device/Browser Detection
         function getDeviceInfo() {
             const ua = navigator.userAgent || navigator.vendor || window.opera;
             let os = 'Unknown OS';
             let deviceType = 'Desktop';
             let browser = 'Unknown Browser';
 
-            // OS detection
             if (/windows/i.test(ua)) os = 'Windows';
             else if (/linux/i.test(ua)) os = 'Linux';
             else if (/macintosh|mac os/i.test(ua)) os = 'macOS';
             else if (/android/i.test(ua)) { os = 'Android'; deviceType = 'Mobile'; }
             else if (/iphone|ipad|ipod/i.test(ua)) { os = 'iOS'; deviceType = 'Mobile'; }
 
-            // Browser detection with version
-            if (/chrome/i.test(ua) && !/edg/i.test(ua)) {
-                browser = 'Chrome';
-            } else if (/firefox/i.test(ua)) {
-                browser = 'Firefox';
-            } else if (/safari/i.test(ua) && !/chrome/i.test(ua)) {
-                browser = 'Safari';
-            } else if (/edg/i.test(ua)) {
-                browser = 'Edge';
-            }
+            if (/chrome/i.test(ua) && !/edg/i.test(ua)) browser = 'Chrome';
+            else if (/firefox/i.test(ua)) browser = 'Firefox';
+            else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = 'Safari';
+            else if (/edg/i.test(ua)) browser = 'Edge';
 
             const versionMatch = ua.match(/(Chrome|Firefox|Safari|Edg)\/([\d.]+)/i);
             if (versionMatch) browser += ` ${versionMatch[2]}`;
@@ -83,7 +100,7 @@
                 screen: `${window.screen.width}×${window.screen.height}`,
                 viewport: `${window.innerWidth}×${window.innerHeight}`,
                 pixelRatio: window.devicePixelRatio.toFixed(1),
-                language: navigator.language || navigator.userLanguage || 'Unknown',
+                language: navigator.language || 'Unknown',
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
                 connection: navigator.connection ? 
                     `${navigator.connection.effectiveType || 'unknown'} (${navigator.connection.downlink || '?'} Mbps)` : 
@@ -91,63 +108,59 @@
             };
         }
 
-        // ── Fetch IP + Location ─────────────────────────────────────────────────────────
+        // Fetch IP & Location
         async function getIpAndLocation() {
             try {
                 const res = await fetch('https://ipapi.co/json/');
-                if (!res.ok) throw new Error('API error');
+                if (!res.ok) throw new Error();
                 const data = await res.json();
                 return {
-                    ip: data.ip || 'Hidden / Private',
+                    ip: data.ip || 'Hidden',
                     location: data.city && data.region && data.country_name ?
                         `${data.city}, ${data.region}, ${data.country_name}` :
-                        'Location masked / VPN detected'
+                        'Location masked'
                 };
-            } catch (e) {
-                return {
-                    ip: 'Hidden / Private',
-                    location: 'Location masked / VPN detected'
-                };
+            } catch {
+                return { ip: 'Hidden', location: 'Location masked' };
             }
         }
 
-        // ── Main Terminal Initialization with Logging ────────────────────────────────
+        // Terminal with detailed logging
         async function initTerminal() {
             const device = getDeviceInfo();
             const net = await getIpAndLocation();
 
             const terminalOutput = document.getElementById('terminal-output');
 
-            // ── Security-style logging sequence ──
             await new Promise(resolve => {
                 new TypeIt(terminalOutput, {
                     speed: 35,
                     afterStep: playKeystroke,
                     afterComplete: resolve
                 })
-                .type('>> [SECURITY SCAN] Initializing connection audit...<br>')
+                .type('>> [SECURITY AUDIT] Initializing connection analysis...<br>')
                 .pause(600)
                 .type(`>> IP Address: ${net.ip}<br>`)
                 .pause(400)
                 .type(`>> Approximate Location: ${net.location}<br>`)
                 .pause(400)
-                .type(`>> Device: ${device.deviceType} / ${device.os}<br>`)
+                .type(`>> Device Type: ${device.deviceType} / OS: ${device.os}<br>`)
                 .pause(400)
                 .type(`>> Browser: ${device.browser}<br>`)
                 .pause(600)
-                .type(`>> Screen Resolution: ${device.screen} (Pixel Ratio: ${device.pixelRatio})<br>`)
+                .type(`>> Screen: ${device.screen} (Pixel Ratio: ${device.pixelRatio})<br>`)
                 .pause(400)
-                .type(`>> Viewport Size: ${device.viewport}<br>`)
+                .type(`>> Viewport: ${device.viewport}<br>`)
                 .pause(400)
                 .type(`>> Language: ${device.language} | Timezone: ${device.timezone}<br>`)
                 .pause(600)
-                .type(`>> Connection Type: ${device.connection}<br>`)
+                .type(`>> Connection: ${device.connection}<br>`)
                 .pause(800)
-                .type('>> Audit complete. No immediate threats detected.<br><br>')
+                .type('>> Audit complete. No critical anomalies detected.<br><br>')
                 .go();
             });
 
-            // Now continue with the original access code prompt
+            // Proceed to access code prompt
             new TypeIt('#terminal-input', {
                 strings: 'akhil_2025_init()',
                 speed: 100,
@@ -169,13 +182,99 @@
             }).go();
         }
 
-        // Start everything
+        // Start terminal
         initTerminal();
 
-        // ── Firewall & Decryption logic remains the same as before ──────────────────────
-        // Paste your existing firewallStage and decryptionStage code here...
-        // (firewall buttons, logs, matrix rain, etc.)
+        // Firewall Bypass
+        const firewallButtons = document.querySelectorAll('.firewall-btn');
+        const firewallLogs = document.getElementById('firewall-logs');
+        const firewallStatus = document.getElementById('firewall-status');
+        const decryptionStage = document.getElementById('decryption-stage');
+        let correctSelections = 0;
+        let isCooldown = false;
 
+        firewallButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (isCooldown) return;
+                if (btn.getAttribute('data-correct') === 'true') {
+                    btn.style.background = '#00f7ff';
+                    correctSelections++;
+                    firewallLogs.innerHTML += btn.textContent.includes('Nmap') ?
+                        `<p>➜ Running: nmap -sV -p- akhilakash.dev</p><p>[PORT 22] SSH – OPEN</p><p>[PORT 443] HTTPS – OPEN</p>` :
+                        `<p>➜ Running: Nessus vulnerability scan</p><p>[VULN] No critical issues detected</p>`;
+                } else {
+                    btn.style.background = '#ff5555';
+                    firewallStatus.textContent = '❌ Unauthorized firewall modification detected. Logging activity...';
+                    isCooldown = true;
+                    setTimeout(() => {
+                        firewallStatus.textContent = '';
+                        btn.style.background = '#333';
+                        isCooldown = false;
+                    }, 3000);
+                }
+                if (correctSelections === 2) {
+                    firewallStatus.textContent = '✅ Firewall bypass successful. Proceeding to data decryption...';
+                    setTimeout(() => {
+                        document.getElementById('firewall-stage').style.display = 'none';
+                        decryptionStage.style.display = 'block';
+                        startDecryption();
+                    }, 1000);
+                }
+            });
+        });
+
+        // Decryption Animation + Redirect to portfolio.html
+        function startDecryption() {
+            const logs = document.getElementById('decryption-logs');
+            const completeText = document.getElementById('decryption-complete');
+            const logMessages = [
+                '▶️ Starting AES-256 decryption...',
+                '🔍 Signature verified...',
+                '📄 Decrypting: Resume, Projects, Skills',
+                '✅ Decryption complete.'
+            ];
+            let logIndex = 0;
+
+            // Matrix rain
+            const canvas = document.getElementById('matrix-rain');
+            const ctx = canvas.getContext('2d');
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+            const chars = '01';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(0);
+
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(26, 26, 26, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#00f7ff';
+                ctx.font = `${fontSize}px 'Roboto'`;
+                drops.forEach((y, i) => {
+                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                    ctx.fillText(text, i * fontSize, y * fontSize);
+                    if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                });
+            }
+            setInterval(drawMatrix, 50);
+
+            // Decryption logs
+            const logInterval = setInterval(() => {
+                if (logIndex < logMessages.length) {
+                    logs.innerHTML += `<p>${logMessages[logIndex]}</p>`;
+                    logIndex++;
+                }
+                if (logIndex === logMessages.length) {
+                    clearInterval(logInterval);
+                    completeText.style.display = 'block';
+                    playVoice();
+                    setTimeout(() => {
+                        window.location.href = 'portfolio.html';
+                    }, 2000);
+                }
+            }, 1000);
+        }
     </script>
 </body>
-</html>s
+</html>
