@@ -505,12 +505,20 @@ nav a:hover {
 
 /* 15. ADDITIONAL ORIGINAL ELEMENTS (education-card, talk-card, blog-post, testimonial) */
 .education-card, .talk-card, .blog-post, .testimonial {
-  background-color: rgba(42, 42, 42, 0.9);
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
+ :root {
+  /* Light mode */
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-text: #1a1a1a;
+  --card-shadow: rgba(255, 193, 61, 0.4); /* sun glow */
 }
+
+[data-theme="dark"] {
+  /* Dark mode */
+  --card-bg: rgba(42, 42, 42, 0.9);
+  --card-text: #f1f1f1;
+  --card-shadow: rgba(0, 247, 255, 0.4); /* moon glow */
+}
+
 
 /* 16. INTRO STYLES (FULL - for index.html splash screen) */
 #intro-container {
@@ -765,3 +773,4 @@ nav a:hover {
 .glass-card, .project-item, .btn, .skill-item, .achieve-item {
   will-change: transform;
 }
+
