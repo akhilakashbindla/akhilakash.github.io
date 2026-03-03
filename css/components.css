@@ -3,6 +3,170 @@
    Updated: Full chat widget + lab simulation styles
    ==================================================== */
 
+/* Avatar - Small circular like portfolio page */
+.avatar-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 1.5rem;
+  border: 4px solid rgba(0, 212, 255, 0.4);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.35);
+  transition: transform 0.4s ease;
+}
+
+.avatar-img:hover {
+  transform: scale(1.08);
+}
+
+/* Floating AI Chat Widget - Auto-visible + minimize to small button */
+.chat-widget {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 380px;
+  height: 520px;
+  background: rgba(26, 26, 38, 0.96);
+  border-radius: 16px;
+  box-shadow: 0 12px 50px rgba(0, 247, 255, 0.35);
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  display: none;
+  flex-direction: column;
+  z-index: 10000;
+  overflow: hidden;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.chat-widget.visible {
+  display: flex;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.chat-header {
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, #00f7ff, #a777e5);
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: bold;
+}
+
+.chat-minimize,
+.chat-close {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 1.8rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 1.2rem;
+  overflow-y: auto;
+  color: #e0e0ff;
+}
+
+.chat-message {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1.3rem;
+  border-radius: 14px;
+  max-width: 85%;
+  line-height: 1.4;
+}
+
+.chat-message.user {
+  background: rgba(0, 247, 255, 0.25);
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-message.bot {
+  background: rgba(167, 119, 229, 0.25);
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+.chat-input {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 247, 255, 0.2);
+  background: rgba(26, 26, 38, 0.8);
+}
+
+#chat-user-input {
+  flex: 1;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  border-radius: 10px 0 0 10px;
+  background: #1e1e2e;
+  color: #e0e0ff;
+}
+
+#chat-send {
+  padding: 0.9rem 1.4rem;
+  background: linear-gradient(135deg, #00f7ff, #a777e5);
+  color: #000;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+#chat-send:hover {
+  transform: scale(1.05);
+}
+
+/* Small minimized button */
+.chat-minimized-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #00f7ff, #a777e5);
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 247, 255, 0.4);
+  z-index: 9999;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.chat-minimized-btn:hover {
+  transform: scale(1.15);
+}
+
+/* Mobile adjustments */
+@media (max-width: 500px) {
+  .chat-widget {
+    width: 90%;
+    height: 70vh;
+    bottom: 80px;
+    right: 5%;
+  }
+  .chat-minimized-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+
+
 /* Reusable Button Styles */
 .btn {
   padding: 0.85rem 2.2rem;
