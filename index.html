@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Akhil Akash Bindla - AI-Driven Cyber Defense Portfolio</title>
   
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   
-  <!-- CSS -->
+  <!-- CSS Files -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/portfolio.css">
   
-  <!-- Three.js for glow background -->
+  <!-- Three.js for subtle glow background -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
 </head>
 <body>
@@ -27,34 +27,35 @@
     </label>
   </div>
 
-  <!-- Glow Background -->
+  <!-- Subtle 3D Glow Background -->
   <div id="bg-3d"></div>
 
-  <!-- Hero -->
+  <!-- Hero / Welcome Section -->
   <section class="hero">
     <div class="hero-content">
       <img src="images/your-photo.jpg" alt="Akhil Akash Bindla" class="avatar-img">
       <h1>Akhil Akash Bindla</h1>
-      <p class="tagline">Cybersecurity Engineer • AI Security • Ethical Hacker</p>
+      <p class="tagline">Cybersecurity Engineer • AI Security Specialist • Ethical Hacker</p>
       
       <div class="cta-buttons">
         <a href="portfolio.html" class="btn btn-primary">View Portfolio</a>
         <a href="lab.html" class="btn btn-secondary">Explore Security Lab</a>
-        <a href="#" class="btn btn-secondary chat-toggle">Talk to AI Assistant</a>
         <a href="dashboard.html" class="btn btn-secondary">View Threat Dashboard</a>
       </div>
     </div>
   </section>
 
-  <!-- Floating AI Chat Widget (placeholder – will expand) -->
-  <div id="chat-widget" class="chat-widget" style="display: none;">
+  <!-- Floating AI Chat Widget (auto-opens on page load) -->
+  <div id="chat-widget" class="chat-widget">
     <div class="chat-header">
-      <span>AI Assistant</span>
+      <span>AI Portfolio Assistant</span>
       <button class="chat-close">×</button>
     </div>
-    <div class="chat-body" id="chat-messages"></div>
+    <div class="chat-body" id="chat-messages">
+      <!-- Messages appear here -->
+    </div>
     <div class="chat-input">
-      <input type="text" id="chat-user-input" placeholder="Ask me anything...">
+      <input type="text" id="chat-user-input" placeholder="Ask me anything about my portfolio..." autocomplete="off">
       <button id="chat-send">Send</button>
     </div>
   </div>
@@ -62,6 +63,6 @@
   <!-- Scripts -->
   <script src="js/theme.js"></script>
   <script src="js/background.js"></script>
-  <script src="js/chat.js"></script> <!-- We'll create this next -->
+  <script src="js/chat.js"></script>
 </body>
 </html>
