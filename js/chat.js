@@ -2,13 +2,13 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const chatWidget = document.getElementById('chat-widget');
-  const chatClose = document.querySelector('.chat-close');
+  const chatMinimize = document.querySelector('.chat-minimize');
   const chatMinimizedBtn = document.getElementById('chat-minimized-btn');
   const chatInput = document.getElementById('chat-user-input');
   const chatSend = document.getElementById('chat-send');
   const chatMessages = document.getElementById('chat-messages');
 
-  // Auto-open chat on page load (after small delay)
+  // Auto-open chat on page load
   setTimeout(() => {
     if (chatWidget) {
       chatWidget.classList.add('visible');
@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 1800);
 
-  // Close full chat → show minimized button
-  if (chatClose) {
-    chatClose.addEventListener('click', () => {
+  // Minimize chat → show small button
+  if (chatMinimize) {
+    chatMinimize.addEventListener('click', () => {
       chatWidget.classList.remove('visible');
       if (chatMinimizedBtn) chatMinimizedBtn.style.display = 'block';
     });
