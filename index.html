@@ -4,19 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Akhil Akash Bindla - AI-Driven Cyber Defense Portfolio</title>
+  
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/layout.css" />
-  <link rel="stylesheet" href="css/components.css" />
-  <link rel="stylesheet" href="css/portfolio.css" />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/portfolio.css">
+  
+  <!-- Three.js for background glow -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
 </head>
 <body>
-  <h1 style="text-align:center; margin-top: 100px; color: #00d4ff;">
-    Akhil Akash Bindla<br>
-    <small>AI-Driven Autonomous Cyber Defense Portfolio</small>
-  </h1>
-  <p style="text-align:center; font-size:1.3rem;">
-    Loading full site...
-  </p>
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <input type="checkbox" id="theme-switch" />
+    <label for="theme-switch" class="toggle-label">
+      <span class="sun">☀️</span>
+      <span class="moon">🌙</span>
+    </label>
+  </div>
+
+  <!-- 3D Glow Background -->
+  <div id="bg-3d"></div>
+
+  <div class="hero">
+    <div class="hero-content">
+      <img src="images/avatar.jpg" alt="Akhil Akash Bindla" class="avatar-img">
+      <h1>Akhil Akash Bindla</h1>
+      <p class="tagline">AI-Driven Autonomous Cyber Defense Engineer</p>
+      
+      <div class="cta-buttons">
+        <a href="portfolio.html" class="btn btn-primary">Enter Portfolio</a>
+        <a href="lab1.html" class="btn btn-secondary">Launch Security Lab</a>
+        <a href="assistant.html" class="btn btn-secondary">Open AI Assistant</a>
+        <a href="dashboard.html" class="btn btn-secondary">View Threat Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/theme.js"></script>
+  <script src="js/background.js"></script>
 </body>
-</html>
+</html> 
