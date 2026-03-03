@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   .type('Simulation ready. Enter input to test.')
   .go();
 
-  // Subtle matrix rain (reused)
+  // Subtle matrix rain
   const canvas = document.getElementById('matrix-rain');
   const ctx = canvas.getContext('2d');
   canvas.height = window.innerHeight;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setInterval(drawMatrix, 50);
 
-  // Simple frontend detection rules (expand later)
+  // Detection rules
   const threatPatterns = [
     /ignore previous instructions/i,
     /override system/i,
@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
-    // Scroll to result
     resultSection.scrollIntoView({ behavior: 'smooth' });
   });
 });
