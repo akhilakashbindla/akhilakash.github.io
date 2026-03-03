@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Akhil Akash Bindla - AI-Driven Cyber Defense Portfolio</title>
   
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   
-  <!-- CSS Files -->
+  <!-- CSS -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/portfolio.css">
   
-  <!-- Three.js for subtle glow background -->
+  <!-- Three.js for glow background -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
 </head>
 <body>
@@ -27,13 +27,13 @@
     </label>
   </div>
 
-  <!-- Subtle 3D Glow Background -->
+  <!-- Glow Background -->
   <div id="bg-3d"></div>
 
-  <!-- Hero / Welcome Section -->
+  <!-- Hero -->
   <section class="hero">
     <div class="hero-content">
-      <img src="images/your-photo1.jpg" alt="Akhil Akash Bindla" class="avatar-img">
+      <img src="images/your-photo.jpg" alt="Akhil Akash Bindla" class="avatar-img">
       <h1>Akhil Akash Bindla</h1>
       <p class="tagline">Cybersecurity Engineer • AI Security Specialist • Ethical Hacker</p>
       
@@ -45,20 +45,25 @@
     </div>
   </section>
 
-  <!-- Floating AI Chat Widget (auto-opens on page load) -->
+  <!-- Floating AI Chat Widget (auto-opens, minimizes to small button) -->
   <div id="chat-widget" class="chat-widget">
     <div class="chat-header">
       <span>AI Portfolio Assistant</span>
-      <button class="chat-close">×</button>
+      <button class="chat-minimize">−</button>
     </div>
     <div class="chat-body" id="chat-messages">
       <!-- Messages appear here -->
     </div>
     <div class="chat-input">
-      <input type="text" id="chat-user-input" placeholder="Ask me anything about my portfolio..." autocomplete="off">
+      <input type="text" id="chat-user-input" placeholder="Ask me anything..." autocomplete="off">
       <button id="chat-send">Send</button>
     </div>
   </div>
+
+  <!-- Small minimized button (when chat is closed) -->
+  <button id="chat-minimized-btn" class="chat-minimized-btn">
+    AI
+  </button>
 
   <!-- Scripts -->
   <script src="js/theme.js"></script>
