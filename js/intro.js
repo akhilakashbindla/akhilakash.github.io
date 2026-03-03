@@ -1,1 +1,451 @@
+/* ====================================================
+   AKHIL AKASH BINDLA PORTFOLIO - style.css
+   Merged & Optimized - January 2025
+   ==================================================== */
 
+/* 1. RESET & BASE STYLES */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode {
+  background: #f4f7fa;
+  color: #0a0a0a;
+}
+
+/* 2. 3D BACKGROUND */
+#bg-3d {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* 3. THEME TOGGLE - IMPROVED VERSION */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+#theme-switch {
+  display: none;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90px;
+  height: 42px;
+  background: #222;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  padding: 0 14px;
+  box-shadow: inset 0 3px 12px rgba(0,0,0,0.5);
+  transition: background 0.4s ease;
+}
+
+.toggle-label::before {
+  content: '';
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  background: white;
+  border-radius: 50%;
+  top: 4px;
+  left: 4px;
+  transition: transform 0.4s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+#theme-switch:checked + .toggle-label {
+  background: linear-gradient(135deg, #00d4ff, #a777e5);
+}
+
+#theme-switch:checked + .toggle-label::before {
+  transform: translateX(48px);
+}
+
+/* Sun & Moon Icons */
+.sun, .moon {
+  font-size: 24px;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.sun {
+  color: #ffdd00;
+}
+
+.moon {
+  color: #e0e0ff;
+}
+
+/* Dark mode active → moon visible */
+.toggle-label .sun {
+  opacity: 0.35;
+}
+
+.toggle-label .moon {
+  opacity: 1;
+}
+
+/* Light mode active → sun visible */
+#theme-switch:checked + .toggle-label .sun {
+  opacity: 1;
+}
+
+#theme-switch:checked + .toggle-label .moon {
+  opacity: 0.35;
+}
+
+/* 4. HERO SECTION */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 900px;
+  z-index: 2;
+}
+
+.avatar-img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 2rem;
+  border: 4px solid rgba(0, 212, 255, 0.4);
+  box-shadow: 0 0 35px rgba(0, 212, 255, 0.35);
+  transition: transform 0.4s ease;
+}
+
+.avatar-img:hover {
+  transform: scale(1.08);
+}
+
+h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #00d4ff, #a777e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.06em;
+}
+
+.tagline {
+  font-size: 1.3rem;
+  color: #b0b0b0;
+  margin-bottom: 2.5rem;
+}
+
+/* 5. BUTTONS */
+.cta, .cta-buttons {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn, .btn-primary, .btn-secondary {
+  padding: 0.85rem 2.2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00d4ff, #a777e5);
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 45px rgba(0, 212, 255, 0.45);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #00d4ff;
+  border: 2.5px solid #00d4ff;
+}
+
+.btn-secondary:hover {
+  background: #00d4ff;
+  color: #0a0a0a;
+  transform: translateY(-3px);
+}
+
+/* 6. GLASS CARDS */
+.glass-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  padding: 2.8rem;
+  margin: 3.2rem auto;
+  max-width: 960px;
+  position: relative;
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+body.dark-mode .glass-card {
+  background: rgba(15, 15, 25, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  backdrop-filter: blur(18px);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.4);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.12), rgba(167, 119, 229, 0.12));
+  border-radius: 22px;
+  z-index: -1;
+}
+
+[data-tilt] {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* 7. SECTION HEADINGS */
+h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #00d4ff;
+  margin-bottom: 1.8rem;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+
+/* 8. NAVIGATION */
+nav {
+  background: linear-gradient(90deg, #00d4ff, #a777e5);
+  padding: 1.2rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 6px 25px rgba(0, 212, 255, 0.35);
+}
+
+nav a {
+  color: white;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.05rem;
+  transition: text-shadow 0.3s ease;
+}
+
+nav a:hover {
+  text-shadow: 0 0 18px #00f7ff, 0 0 35px #ff00ff;
+}
+
+/* 9. OTHER COMPONENTS (skills, projects, achievements, etc.) */
+.skill-badges {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.skill-badges span {
+  background: rgba(0, 212, 255, 0.22);
+  color: #00d4ff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid rgba(0, 212, 255, 0.35);
+}
+
+.skills-grid, .project-grid, .achieve-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.8rem;
+  margin-top: 2rem;
+}
+
+.skill-item, .project-item, .achieve-item {
+  text-align: center;
+  padding: 1.8rem;
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  border: 1px solid rgba(0,212,255,0.22);
+  transition: transform 0.3s ease;
+}
+
+body.dark-mode .skill-item,
+body.dark-mode .project-item,
+body.dark-mode .achieve-item {
+  background: rgba(20,20,35,0.1);
+}
+
+.skill-item:hover,
+.project-item:hover,
+.achieve-item:hover {
+  transform: translateY(-8px);
+}
+
+.icon, .skill-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #00d4ff, #a777e5);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  margin: 0 auto 1.2rem;
+}
+
+.view-more {
+  color: #00d4ff;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-item:hover .view-more {
+  opacity: 1;
+}
+
+/* 10. INTRO / TERMINAL STYLES (used in index.html) */
+#intro-container {
+  position: fixed;
+  inset: 0;
+  background: #0f0f0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.stage {
+  width: 100%;
+  max-width: 900px;
+  color: #e0e0ff;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.terminal {
+  background: #1a1a2e;
+  padding: 2.2rem;
+  border-radius: 14px;
+  box-shadow: 0 0 35px rgba(0, 212, 255, 0.25);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.terminal p {
+  margin: 0.6rem 0;
+  font-size: 1.15rem;
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 22px;
+  background: #00f7ff;
+  animation: blink 1.1s step-end infinite;
+}
+
+/* ... (keep your existing firewall, decryption, matrix-rain, glitch animations) ... */
+
+/* 11. RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  #hero { padding: 1.5rem; }
+  .avatar-img { width: 180px; height: 180px; }
+  .cta, .cta-buttons { flex-direction: column; }
+  .glass-card { margin: 2rem 1rem; padding: 2rem; }
+  .skills-grid, .project-grid, .achieve-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.8rem; }
+  .glass-card { padding: 1.5rem; }
+}
+
+/* 12. ANIMATIONS & SCROLLBAR */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.glass-card {
+  animation: fadeInUp 0.9s ease forwards;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#00d4ff, #a777e5);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(#a777e5, #00d4ff);
+}
