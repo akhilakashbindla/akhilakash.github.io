@@ -1,1 +1,97 @@
+.lab-body {
+  background: #0a0a0a;
+  color: #e0e0ff;
+  font-family: 'Roboto Mono', monospace;
+  min-height: 100vh;
+  position: relative;
+}
 
+.lab-header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid #00f7ff33;
+}
+
+.lab-header h1 {
+  font-family: 'Orbitron', sans-serif;
+  color: #00f7ff;
+  margin-bottom: 0.5rem;
+}
+
+.lab-header p {
+  color: #b0b0ff;
+  font-size: 1.1rem;
+}
+
+.input-section {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: rgba(26, 26, 38, 0.7);
+  border-radius: 12px;
+  border: 1px solid #00f7ff22;
+}
+
+.input-section label {
+  display: block;
+  margin-bottom: 1rem;
+  color: #00f7ff;
+  font-size: 1.2rem;
+}
+
+#test-input {
+  width: 100%;
+  padding: 1rem;
+  background: #1a1a2e;
+  color: #e0e0ff;
+  border: 1px solid #00f7ff44;
+  border-radius: 8px;
+  font-family: 'Roboto Mono', monospace;
+  resize: vertical;
+  min-height: 120px;
+}
+
+#evaluate-btn {
+  margin-top: 1rem;
+  padding: 0.9rem 2rem;
+  background: linear-gradient(90deg, #00f7ff, #a777e5);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#evaluate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 247, 255, 0.4);
+}
+
+.result-section {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: rgba(26, 26, 38, 0.7);
+  border-radius: 12px;
+  border: 1px solid #00f7ff22;
+}
+
+.threat-indicator {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.threat { color: #ff5555; }
+.safe { color: #00ff9d; }
+
+.nav-buttons {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.nav-buttons .btn {
+  margin: 0.5rem;
+}
