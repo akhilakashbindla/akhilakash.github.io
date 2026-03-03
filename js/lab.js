@@ -1,4 +1,4 @@
-// js/lab.js - Professional AI Defense Simulation Logic (frontend only)
+// js/lab.js - Professional AI Defense Simulation (frontend only)
 
 document.addEventListener('DOMContentLoaded', () => {
   const initTerminal = document.getElementById('init-output');
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultAction = document.getElementById('result-action');
   const explanation = document.getElementById('explanation');
 
-  // Simple initialization typing (professional tone)
+  // Professional initialization typing
   new TypeIt(initTerminal, {
     speed: 50,
     cursorChar: '_',
@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
   .type('Activating Prompt Injection Filter...<br>', { delay: 400 })
   .type('System Integrity: Verified<br>', { delay: 400 })
   .type('Status: Operational<br><br>', { delay: 600 })
-  .type('Simulation ready.')
+  .type('Simulation ready. Enter input to test.')
   .go();
 
-  // Matrix rain (reused from intro.css)
+  // Subtle matrix rain (reused)
   const canvas = document.getElementById('matrix-rain');
   const ctx = canvas.getContext('2d');
   canvas.height = window.innerHeight;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setInterval(drawMatrix, 50);
 
-  // Simple frontend detection rules (expand later with backend)
+  // Simple frontend detection rules (expand later)
   const threatPatterns = [
     /ignore previous instructions/i,
     /override system/i,
@@ -69,7 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
     /admin password/i,
     /system prompt/i,
     /jailbreak/i,
-    /developer mode/i
+    /developer mode/i,
+    /forget all previous/i,
+    /act as/i
   ];
 
   evaluateBtn.addEventListener('click', () => {
