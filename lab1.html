@@ -1,300 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akhil Akash Bindla - Secure Access</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/intro.css">
-    <script src="https://cdn.jsdelivr.net/npm/typeit@8.7.1/dist/index.umd.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Defense Simulation Lab - Akhil Akash Bindla</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/intro.css"> <!-- Reuses matrix/glitch/terminal styles -->
+  
+  <!-- Optional: Three.js for subtle background glow if you want -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
 </head>
-<body>
-    <div style="position: fixed; top: 20px; left: 20px; z-index: 10000; color: #00f7ff; font-family: 'Orbitron', sans-serif;">
-  Security Lab Demo – Interactive Simulation
-</div>
+<body class="lab-body">
+  <!-- Subtle Matrix Rain Background -->
+  <canvas id="matrix-rain"></canvas>
 
-<button id="skip-lab" style="position: fixed; bottom: 20px; right: 20px; z-index: 10000; padding: 12px 24px; background: rgba(0,0,0,0.6); color: #00f7ff; border: 2px solid #00f7ff; border-radius: 8px; cursor: pointer; font-size: 1.1rem; display: none;">
-  Skip Lab → Enter Portfolio
-</button>
-    <div id="intro-container">
-        <!-- Stage 1: Terminal Console -->
-        <div id="terminal-stage" class="stage">
-            <div class="terminal">
-                <div id="terminal-output"></div>
-                <div class="input-line">
-                    <span>> </span>
-                    <span id="terminal-input"></span>
-                    <span class="cursor"></span>
-                </div>
-            </div>
-        </div>
+  <!-- Header -->
+  <header class="lab-header">
+    <h1>AI Defense Simulation Lab</h1>
+    <p>Controlled environment to evaluate prompt patterns and AI security mechanisms</p>
+  </header>
 
-        <!-- Stage 2: Firewall Bypass -->
-        <div id="firewall-stage" class="stage" style="display: none;">
-            <div class="firewall">
-                <h2>Access Blocked by Internal Firewall Rules</h2>
-                <p>Select the correct actions to bypass:</p>
-                <div class="firewall-options">
-                    <button class="firewall-btn" data-correct="true" title="🔍 Scan network ports safely">Analyze Ports using Nmap</button>
-                    <button class="firewall-btn" data-correct="false" title="🚫 Risky and unauthorized">Disable UFW Firewall</button>
-                    <button class="firewall-btn" data-correct="true" title="🛡️ Identify vulnerabilities securely">Run Nessus Vulnerability Scan</button>
-                    <button class="firewall-btn" data-correct="false" title="🚫 Potential malware risk">Execute Unverified Script</button>
-                </div>
-                <div id="firewall-logs"></div>
-                <p id="firewall-status"></p>
-            </div>
-        </div>
+  <!-- Initialization Animation -->
+  <div id="init-terminal" class="terminal">
+    <div id="init-output"></div>
+  </div>
 
-        <!-- Stage 3: Decryption Animation -->
-        <div id="decryption-stage" class="stage" style="display: none;">
-            <canvas id="matrix-rain"></canvas>
-            <div class="decryption">
-                <h2>Decrypting Secure Interface...</h2>
-                <div id="decryption-logs"></div>
-                <p id="decryption-complete" class="glitch" data-text="✅ Decryption Complete">✅ Decryption Complete</p>
-            </div>
-        </div>
+  <!-- Main Simulation Panel (hidden until init finishes) -->
+  <div id="simulation-panel" class="simulation-panel" style="display: none;">
+    <div class="input-section">
+      <label for="test-input">Enter sample input to evaluate:</label>
+      <textarea id="test-input" placeholder="Type any message or command here..." rows="4"></textarea>
+      <button id="evaluate-btn">Evaluate Input</button>
     </div>
 
-    <script>
-        // Keystroke sound effect
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        function playKeystroke() {
-            const oscillator = ctx.createOscillator();
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(800, ctx.currentTime);
-            const gain = ctx.createGain();
-            gain.gain.setValueAtTime(0.1, ctx.currentTime);
-            oscillator.connect(gain);
-            gain.connect(ctx.destination);
-            oscillator.start();
-            oscillator.stop(ctx.currentTime + 0.05);
-        }
+    <div id="result-section" class="result-section" style="display: none;">
+      <div id="threat-indicator" class="threat-indicator"></div>
+      <h3 id="result-title"></h3>
+      <p id="result-category"></p>
+      <p id="result-score"></p>
+      <p id="result-action"></p>
+      <div id="explanation" class="explanation"></div>
+    </div>
 
-        // Voice playback
-        function playVoice() {
-            const utterance = new SpeechSynthesisUtterance("Decryption complete. Welcome to Akhil Akash Bindla's portfolio.");
-            utterance.rate = 1;
-            utterance.pitch = 1;
-            window.speechSynthesis.speak(utterance);
-        }
+    <div class="nav-buttons">
+      <a href="index.html" class="btn btn-secondary">Return to Homepage</a>
+      <a href="portfolio.html" class="btn btn-secondary">Open Portfolio</a>
+      <a href="assistant.html" class="btn btn-secondary">Open AI Assistant</a>
+    </div>
+  </div>
 
-        // Enhanced Device/Browser Detection
-        function getDeviceInfo() {
-            const ua = navigator.userAgent || navigator.vendor || window.opera;
-            let os = 'Unknown OS';
-            let deviceType = 'Desktop';
-            let browser = 'Unknown Browser';
-
-            if (/windows/i.test(ua)) os = 'Windows';
-            else if (/linux/i.test(ua)) os = 'Linux';
-            else if (/macintosh|mac os/i.test(ua)) os = 'macOS';
-            else if (/android/i.test(ua)) { os = 'Android'; deviceType = 'Mobile'; }
-            else if (/iphone|ipad|ipod/i.test(ua)) { os = 'iOS'; deviceType = 'Mobile'; }
-
-            if (/chrome/i.test(ua) && !/edg/i.test(ua)) browser = 'Chrome';
-            else if (/firefox/i.test(ua)) browser = 'Firefox';
-            else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = 'Safari';
-            else if (/edg/i.test(ua)) browser = 'Edge';
-
-            const versionMatch = ua.match(/(Chrome|Firefox|Safari|Edg)\/([\d.]+)/i);
-            if (versionMatch) browser += ` ${versionMatch[2]}`;
-
-            return {
-                os,
-                browser,
-                deviceType,
-                screen: `${window.screen.width}×${window.screen.height}`,
-                viewport: `${window.innerWidth}×${window.innerHeight}`,
-                pixelRatio: window.devicePixelRatio.toFixed(1),
-                language: navigator.language || 'Unknown',
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
-                connection: navigator.connection ? 
-                    `${navigator.connection.effectiveType || 'unknown'} (${navigator.connection.downlink || '?'} Mbps)` : 
-                    'Unknown'
-            };
-        }
-
-        // Fetch IP & Location
-        async function getIpAndLocation() {
-            try {
-                const res = await fetch('https://ipapi.co/json/');
-                if (!res.ok) throw new Error();
-                const data = await res.json();
-                return {
-                    ip: data.ip || 'Hidden',
-                    location: data.city && data.region && data.country_name ?
-                        `${data.city}, ${data.region}, ${data.country_name}` :
-                        'Location masked'
-                };
-            } catch {
-                return { ip: 'Hidden', location: 'Location masked' };
-            }
-        }
-
-        // Terminal with detailed logging
-        async function initTerminal() {
-            const device = getDeviceInfo();
-            const net = await getIpAndLocation();
-
-            const terminalOutput = document.getElementById('terminal-output');
-
-            await new Promise(resolve => {
-                new TypeIt(terminalOutput, {
-                    speed: 35,
-                    afterStep: playKeystroke,
-                    afterComplete: resolve
-                })
-                .type('>> [SECURITY AUDIT] Initializing connection analysis...<br>')
-                .pause(600)
-                .type(`>> IP Address: ${net.ip}<br>`)
-                .pause(400)
-                .type(`>> Approximate Location: ${net.location}<br>`)
-                .pause(400)
-                .type(`>> Device Type: ${device.deviceType} / OS: ${device.os}<br>`)
-                .pause(400)
-                .type(`>> Browser: ${device.browser}<br>`)
-                .pause(600)
-                .type(`>> Screen: ${device.screen} (Pixel Ratio: ${device.pixelRatio})<br>`)
-                .pause(400)
-                .type(`>> Viewport: ${device.viewport}<br>`)
-                .pause(400)
-                .type(`>> Language: ${device.language} | Timezone: ${device.timezone}<br>`)
-                .pause(600)
-                .type(`>> Connection: ${device.connection}<br>`)
-                .pause(800)
-                .type('>> Audit complete. No critical anomalies detected.<br><br>')
-                .go();
-            });
-
-            // Proceed to access code prompt
-            new TypeIt('#terminal-input', {
-                strings: 'akhil_2025_init()',
-                speed: 100,
-                afterStep: playKeystroke,
-                afterComplete: () => {
-                    terminalOutput.innerHTML += `
-                        <p>Authenticating user: Akhil Akash Bindla</p>
-                        <p>Clearance Level: Top Secret [██████████]</p>
-                        <p>Login: admin</p>
-                        <p>Password: ********</p>
-                        <p>✅ Access granted. Proceeding to firewall challenge...</p>
-                    `;
-                    document.getElementById('terminal-stage').classList.add('scroll-out');
-                    setTimeout(() => {
-                        document.getElementById('terminal-stage').style.display = 'none';
-                        document.getElementById('firewall-stage').style.display = 'block';
-                    }, 1200);
-                }
-            }).go();
-        }
-
-        // Start terminal
-        initTerminal();
-
-        // Firewall Bypass
-        const firewallButtons = document.querySelectorAll('.firewall-btn');
-        const firewallLogs = document.getElementById('firewall-logs');
-        const firewallStatus = document.getElementById('firewall-status');
-        const decryptionStage = document.getElementById('decryption-stage');
-        let correctSelections = 0;
-        let isCooldown = false;
-
-        firewallButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (isCooldown) return;
-                if (btn.getAttribute('data-correct') === 'true') {
-                    btn.style.background = '#00f7ff';
-                    correctSelections++;
-                    firewallLogs.innerHTML += btn.textContent.includes('Nmap') ?
-                        `<p>➜ Running: nmap -sV -p- akhilakash.dev</p><p>[PORT 22] SSH – OPEN</p><p>[PORT 443] HTTPS – OPEN</p>` :
-                        `<p>➜ Running: Nessus vulnerability scan</p><p>[VULN] No critical issues detected</p>`;
-                } else {
-                    btn.style.background = '#ff5555';
-                    firewallStatus.textContent = '❌ Unauthorized firewall modification detected. Logging activity...';
-                    isCooldown = true;
-                    setTimeout(() => {
-                        firewallStatus.textContent = '';
-                        btn.style.background = '#333';
-                        isCooldown = false;
-                    }, 3000);
-                }
-                if (correctSelections === 2) {
-                    firewallStatus.textContent = '✅ Firewall bypass successful. Proceeding to data decryption...';
-                    setTimeout(() => {
-                        document.getElementById('firewall-stage').style.display = 'none';
-                        decryptionStage.style.display = 'block';
-                        startDecryption();
-                    }, 1000);
-                }
-            });
-        });
-
-        // Decryption Animation + Redirect to portfolio.html
-        function startDecryption() {
-            const logs = document.getElementById('decryption-logs');
-            const completeText = document.getElementById('decryption-complete');
-            const logMessages = [
-                '▶️ Starting AES-256 decryption...',
-                '🔍 Signature verified...',
-                '📄 Decrypting: Resume, Projects, Skills',
-                '✅ Decryption complete.'
-            ];
-            let logIndex = 0;
-
-            // Matrix rain
-            const canvas = document.getElementById('matrix-rain');
-            const ctx = canvas.getContext('2d');
-            canvas.height = window.innerHeight;
-            canvas.width = window.innerWidth;
-            const chars = '01';
-            const fontSize = 14;
-            const columns = canvas.width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(0);
-
-            function drawMatrix() {
-                ctx.fillStyle = 'rgba(26, 26, 26, 0.1)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#00f7ff';
-                ctx.font = `${fontSize}px 'Roboto'`;
-                drops.forEach((y, i) => {
-                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
-                    ctx.fillText(text, i * fontSize, y * fontSize);
-                    if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                });
-            }
-            setInterval(drawMatrix, 50);
-
-            // Decryption logs
-            const logInterval = setInterval(() => {
-                if (logIndex < logMessages.length) {
-                    logs.innerHTML += `<p>${logMessages[logIndex]}</p>`;
-                    logIndex++;
-                }
-                if (logIndex === logMessages.length) {
-                    clearInterval(logInterval);
-                    completeText.style.display = 'block';
-                    playVoice();
-                    setTimeout(() => {
-                        window.location.href = 'portfolio.html';
-                    }, 2000);
-                }
-            }, 1000);
-        }
-    </script>
-    // Show skip button after 5 seconds
-setTimeout(() => {
-  document.getElementById('skip-lab').style.display = 'block';
-}, 5000);
-
-document.getElementById('skip-lab').addEventListener('click', () => {
-  window.location.href = 'portfolio.html';
-});
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/lab.js"></script>
 </body>
 </html>
-
-
-
-
