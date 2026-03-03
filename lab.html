@@ -8,11 +8,13 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
   
-  <!-- Styles -->
+  <!-- CSS -->
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/intro.css"> <!-- Reuses matrix/glitch/terminal styles -->
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/intro.css"> <!-- Reuses matrix rain & glitch -->
   
-  <!-- Optional: Three.js for subtle background glow if you want -->
+  <!-- Optional: Three.js for subtle glow if you want -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
 </head>
 <body class="lab-body">
@@ -34,7 +36,7 @@
   <div id="simulation-panel" class="simulation-panel" style="display: none;">
     <div class="input-section">
       <label for="test-input">Enter sample input to evaluate:</label>
-      <textarea id="test-input" placeholder="Type any message or command here..." rows="4"></textarea>
+      <textarea id="test-input" placeholder="Type any message, command, or potential prompt here..." rows="5"></textarea>
       <button id="evaluate-btn">Evaluate Input</button>
     </div>
 
@@ -50,7 +52,6 @@
     <div class="nav-buttons">
       <a href="index.html" class="btn btn-secondary">Return to Homepage</a>
       <a href="portfolio.html" class="btn btn-secondary">Open Portfolio</a>
-      <a href="assistant.html" class="btn btn-secondary">Open AI Assistant</a>
     </div>
   </div>
 
