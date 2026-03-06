@@ -29,18 +29,151 @@
 
   <!-- Header -->
   <header class="hero">
-    <h1>Site Security Architecture</h1>
-    <p>Defense-in-depth approach protecting this portfolio against OWASP Top 10 and AI-specific threats</p>
+    <div class="hero-content">
+      <h1>Site Security Architecture</h1>
+      <p class="tagline">Defense-in-depth approach protecting this portfolio against OWASP Top 10 and AI-specific threats</p>
+    </div>
   </header>
 
-  <!-- Main Content (we will fill this next) -->
+  <!-- Main Content -->
   <main class="security-content">
-    <!-- To be filled: diagram, OWASP cards, checklist -->
+    <!-- Architecture Overview -->
+    <section class="architecture-overview">
+      <h2>High-Level Architecture</h2>
+      <div class="diagram">
+        <pre>
+Visitor (Browser)
+    ↓ HTTPS + Browser Security
+GitHub Pages (Static Frontend)
+    ↓ Sanitized API Calls
+FastAPI Backend (Render)
+    ↓ Rate Limiting + Input Validation + Prompt Injection Filter
+RAG Engine (FAISS + Resume/Projects Data)
+    ↓ Safe Context Retrieval
+LLM Response (Grok / OpenAI)
+        </pre>
+        <p>Each layer enforces security: static frontend minimizes attack surface, backend validates inputs, prompt filter blocks jailbreaks, RAG uses trusted data only.</p>
+    </section>
+
+    <!-- OWASP Top 10 + AI Defenses -->
+    <section class="owasp-section">
+      <h2>OWASP Top 10 & AI-Specific Protections</h2>
+      <div class="owasp-cards">
+        <!-- Card 1: Injection -->
+        <div class="card expandable">
+          <div class="card-header">
+            <h3>A03: Injection (Classic + Prompt Injection)</h3>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="card-content" style="display: none;">
+            <p><strong>Risk:</strong> High – Malicious input executed as code or LLM override.</p>
+            <p><strong>Defense:</strong> Input sanitization + dedicated prompt injection filter before RAG.</p>
+            <pre><code>blocked_patterns = [
+  "ignore previous instructions",
+  "override system",
+  "drop table",
+  "system prompt"
+]
+
+def detect_injection(text):
+    return any(p in text.lower() for p in blocked_patterns)
+
+if detect_injection(user_input):
+    return "Blocked: Potential prompt injection detected"
+</code></pre>
+            <p>Result: All queries pass through filter — jailbreaks are blocked early.</p>
+          </div>
+        </div>
+
+        <!-- Card 2: Broken Access Control -->
+        <div class="card expandable">
+          <div class="card-header">
+            <h3>A01: Broken Access Control</h3>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="card-content" style="display: none;">
+            <p><strong>Risk:</strong> Unauthorized access to sensitive areas.</p>
+            <p><strong>Defense:</strong> Static frontend (GitHub Pages) – no server-side auth needed. Backend uses API keys (env vars) and CORS restrictions.</p>
+            <p>No admin endpoints exposed. All content is public by design.</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Security Misconfiguration -->
+        <div class="card expandable">
+          <div class="card-header">
+            <h3>A05: Security Misconfiguration</h3>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="card-content" style="display: none;">
+            <p><strong>Risk:</strong> Exposed debug modes, default creds, open ports.</p>
+            <p><strong>Defense:</strong> Render env vars for secrets, no debug mode, dependency scanning via Dependabot, HTTPS enforced.</p>
+          </div>
+        </div>
+
+        <!-- Card 4: Identification & Authentication Failures -->
+        <div class="card expandable">
+          <div class="card-header">
+            <h3>A07: Identification & Authentication Failures</h3>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="card-content" style="display: none;">
+            <p><strong>Risk:</strong> Weak login mechanisms.</p>
+            <p><strong>Defense:</strong> No user authentication required – static public portfolio. Future API endpoints will use API keys or JWT.</p>
+          </div>
+        </div>
+
+        <!-- Card 5: Software & Data Integrity Failures -->
+        <div class="card expandable">
+          <div class="card-header">
+            <h3>A08: Software & Data Integrity Failures</h3>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="card-content" style="display: none;">
+            <p><strong>Risk:</strong> RAG poisoning, untrusted data sources.</p>
+            <p><strong>Defense:</strong> RAG uses only trusted resume/projects data. No user-uploaded content. Vector store integrity checked on ingestion.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security Practices Checklist -->
+    <section class="checklist-section">
+      <h2>Implemented Security Practices</h2>
+      <ul class="checklist">
+        <li>✔ HTTPS enforced (GitHub Pages default)</li>
+        <li>✔ Secrets in environment variables (Render)</li>
+        <li>✔ Input validation & sanitization on backend</li>
+        <li>✔ Prompt injection detection layer</li>
+        <li>✔ CORS policy restrictions</li>
+        <li>✔ Dependency monitoring (Dependabot)</li>
+        <li>✔ No persistent user data stored</li>
+        <li>✔ Principle of least privilege</li>
+      </ul>
+    </section>
   </main>
+
+  <!-- Floating Cipher AI Chat Widget -->
+  <div id="chat-widget" class="chat-widget">
+    <div class="chat-header">
+      <span>Cipher</span>
+      <button class="chat-minimize">−</button>
+    </div>
+    <div class="chat-body" id="chat-messages"></div>
+    <div class="chat-input">
+      <input type="text" id="chat-user-input" placeholder="Ask Cipher anything..." autocomplete="off">
+      <button id="chat-send">Send</button>
+    </div>
+  </div>
+
+  <!-- Small minimized Cipher button -->
+  <button id="chat-minimized-btn" class="chat-minimized-btn">
+    C
+  </button>
 
   <!-- Scripts -->
   <script src="js/theme.js"></script>
   <script src="js/background.js"></script>
   <script src="js/chat.js"></script>
+  <script src="js/security-cards.js"></script> <!-- New JS for expandable cards -->
 </body>
 </html>
