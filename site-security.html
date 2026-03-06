@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Site Security Architecture - Akhil Akash Bindla</title>
   
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   
-  <!-- CSS -->
+  <!-- CSS – order: base first, then layout/components/portfolio/intro -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/portfolio.css">
+  <link rel="stylesheet" href="css/intro.css"> <!-- for matrix/glitch if needed -->
 </head>
 <body>
   <!-- Theme Toggle -->
@@ -24,10 +25,10 @@
     </label>
   </div>
 
-  <!-- Glow Background -->
+  <!-- Glow Background (this fixes the white/plain look) -->
   <div id="bg-3d"></div>
 
-  <!-- Header -->
+  <!-- Header / Hero -->
   <header class="hero">
     <div class="hero-content">
       <h1>Site Security Architecture</h1>
@@ -55,7 +56,7 @@ LLM Response (Grok / OpenAI)
         <p>Each layer enforces security: static frontend minimizes attack surface, backend validates inputs, prompt filter blocks jailbreaks, RAG uses trusted data only.</p>
     </section>
 
-    <!-- OWASP Top 10 + AI Defenses -->
+    <!-- OWASP Top 10 + AI Defenses (expandable cards) -->
     <section class="owasp-section">
       <h2>OWASP Top 10 & AI-Specific Protections</h2>
       <div class="owasp-cards">
@@ -65,7 +66,7 @@ LLM Response (Grok / OpenAI)
             <h3>A03: Injection (Classic + Prompt Injection)</h3>
             <span class="toggle-icon">▼</span>
           </div>
-          <div class="card-content" style="display: none;">
+          <div class="card-content">
             <p><strong>Risk:</strong> High – Malicious input executed as code or LLM override.</p>
             <p><strong>Defense:</strong> Input sanitization + dedicated prompt injection filter before RAG.</p>
             <pre><code>blocked_patterns = [
@@ -91,7 +92,7 @@ if detect_injection(user_input):
             <h3>A01: Broken Access Control</h3>
             <span class="toggle-icon">▼</span>
           </div>
-          <div class="card-content" style="display: none;">
+          <div class="card-content">
             <p><strong>Risk:</strong> Unauthorized access to sensitive areas.</p>
             <p><strong>Defense:</strong> Static frontend (GitHub Pages) – no server-side auth needed. Backend uses API keys (env vars) and CORS restrictions.</p>
             <p>No admin endpoints exposed. All content is public by design.</p>
@@ -104,7 +105,7 @@ if detect_injection(user_input):
             <h3>A05: Security Misconfiguration</h3>
             <span class="toggle-icon">▼</span>
           </div>
-          <div class="card-content" style="display: none;">
+          <div class="card-content">
             <p><strong>Risk:</strong> Exposed debug modes, default creds, open ports.</p>
             <p><strong>Defense:</strong> Render env vars for secrets, no debug mode, dependency scanning via Dependabot, HTTPS enforced.</p>
           </div>
@@ -116,7 +117,7 @@ if detect_injection(user_input):
             <h3>A07: Identification & Authentication Failures</h3>
             <span class="toggle-icon">▼</span>
           </div>
-          <div class="card-content" style="display: none;">
+          <div class="card-content">
             <p><strong>Risk:</strong> Weak login mechanisms.</p>
             <p><strong>Defense:</strong> No user authentication required – static public portfolio. Future API endpoints will use API keys or JWT.</p>
           </div>
@@ -128,7 +129,7 @@ if detect_injection(user_input):
             <h3>A08: Software & Data Integrity Failures</h3>
             <span class="toggle-icon">▼</span>
           </div>
-          <div class="card-content" style="display: none;">
+          <div class="card-content">
             <p><strong>Risk:</strong> RAG poisoning, untrusted data sources.</p>
             <p><strong>Defense:</strong> RAG uses only trusted resume/projects data. No user-uploaded content. Vector store integrity checked on ingestion.</p>
           </div>
@@ -174,6 +175,6 @@ if detect_injection(user_input):
   <script src="js/theme.js"></script>
   <script src="js/background.js"></script>
   <script src="js/chat.js"></script>
-  <script src="js/security-cards.js"></script> <!-- New JS for expandable cards -->
+  <script src="js/security-cards.js"></script>
 </body>
-</html>
+</html> 
