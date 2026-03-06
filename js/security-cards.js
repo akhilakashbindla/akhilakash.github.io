@@ -1,4 +1,4 @@
-// js/security-cards.js - Expandable OWASP cards for site-security.html
+// js/security-cards.js - Expandable OWASP cards
 
 document.addEventListener('DOMContentLoaded', () => {
   const cardHeaders = document.querySelectorAll('.card-header');
