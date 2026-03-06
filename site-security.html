@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/portfolio.css">
-  <script src="js/security-cards.js"></script>
 </head>
 <body>
   <!-- Theme Toggle -->
@@ -86,54 +85,9 @@ if detect_injection(user_input):
           </div>
         </div>
 
-        <!-- Card 2: Broken Access Control -->
-        <div class="card expandable">
-          <div class="card-header">
-            <h3>A01: Broken Access Control</h3>
-            <span class="toggle-icon">▼</span>
-          </div>
-          <div class="card-content" style="display: none;">
-            <p><strong>Risk:</strong> Unauthorized access to sensitive areas.</p>
-            <p><strong>Defense:</strong> Static frontend (GitHub Pages) – no server-side auth needed. Backend uses API keys (env vars) and CORS restrictions.</p>
-            <p>No admin endpoints exposed. All content is public by design.</p>
-          </div>
-        </div>
+        <!-- Add other 4 cards similarly (Broken Access Control, Security Misconfiguration, etc.) -->
+        <!-- We'll expand in next step if needed -->
 
-        <!-- Card 3: Security Misconfiguration -->
-        <div class="card expandable">
-          <div class="card-header">
-            <h3>A05: Security Misconfiguration</h3>
-            <span class="toggle-icon">▼</span>
-          </div>
-          <div class="card-content" style="display: none;">
-            <p><strong>Risk:</strong> Exposed debug modes, default creds, open ports.</p>
-            <p><strong>Defense:</strong> Render env vars for secrets, no debug mode, dependency scanning via Dependabot, HTTPS enforced.</p>
-          </div>
-        </div>
-
-        <!-- Card 4: Identification & Authentication Failures -->
-        <div class="card expandable">
-          <div class="card-header">
-            <h3>A07: Identification & Authentication Failures</h3>
-            <span class="toggle-icon">▼</span>
-          </div>
-          <div class="card-content" style="display: none;">
-            <p><strong>Risk:</strong> Weak login mechanisms.</p>
-            <p><strong>Defense:</strong> No user authentication required – static public portfolio. Future API endpoints will use API keys or JWT.</p>
-          </div>
-        </div>
-
-        <!-- Card 5: Software & Data Integrity Failures -->
-        <div class="card expandable">
-          <div class="card-header">
-            <h3>A08: Software & Data Integrity Failures</h3>
-            <span class="toggle-icon">▼</span>
-          </div>
-          <div class="card-content" style="display: none;">
-            <p><strong>Risk:</strong> RAG poisoning, untrusted data sources.</p>
-            <p><strong>Defense:</strong> RAG uses only trusted resume/projects data. No user-uploaded content. Vector store integrity checked on ingestion.</p>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -175,6 +129,6 @@ if detect_injection(user_input):
   <script src="js/theme.js"></script>
   <script src="js/background.js"></script>
   <script src="js/chat.js"></script>
-  <script src="js/security-cards.js"></script> <!-- New JS for expandable cards -->
+  <script src="js/security-cards.js"></script>
 </body>
 </html>
