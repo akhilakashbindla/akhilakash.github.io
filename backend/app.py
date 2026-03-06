@@ -1,80 +1,57 @@
-# backend/rag.py - Basic RAG with FAISS
+# backend/app.py - FastAPI backend for Cipher
 
-from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
-from typing import List, Dict
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from rag import retrieve, detect_injection
+from openai import OpenAI
+from dotenv import load_dotenv
 import os
 
-# Load embedding model (all-MiniLM-L6-v2 is fast & good)
-model = SentenceTransformer('all-MiniLM-L6-v2')
+load_dotenv()
 
-# Load documents from data folder
-def load_documents():
-    documents = []
-    sources = []
-    for filename in os.listdir("data"):
-        if filename.endswith(".txt"):
-            with open(f"data/{filename}", "r", encoding="utf-8") as f:
-                text = f.read().strip()
-                documents.append(text)
-                sources.append(filename)
-    return documents, sources
+app = FastAPI(title="Cipher AI Backend")
 
-# Build or load vector index
-def build_index():
-    documents, sources = load_documents()
-    if not documents:
-        raise ValueError("No documents found in data folder")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # or Groq client
 
-    embeddings = model.encode(documents, show_progress_bar=True)
-    dimension = embeddings.shape[1]
+class ChatRequest(BaseModel):
+    message: str
+    page: str = "unknown"
 
-    index = faiss.IndexFlatL2(dimension)
-    index.add(np.array(embeddings))
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    if detect_injection(request.message):
+        return {"response": "⚠ Prompt injection attempt detected. Request blocked for security."}
 
-    # Save metadata
-    metadata = [{"source": src, "text": doc} for src, doc in zip(sources, documents)]
-    faiss.write_index(index, "faiss_index.index")
-    with open("metadata.json", "w", encoding="utf-8") as f:
-        import json
-        json.dump(metadata, f)
+    # Retrieve relevant context
+    retrieved = retrieve(request.message, k=3)
+    context = "\n\n".join([r["text"] for r in retrieved])
 
-    return index, metadata
+    # Build prompt
+    system_prompt = f"""
+You are Cipher, Akhil Akash Bindla's intelligent portfolio assistant.
+Answer only using the provided knowledge.
+Current page: {request.page}
+Context:
+{context}
 
-# Retrieve relevant chunks
-def retrieve(query: str, k: int = 3):
-    if not os.path.exists("faiss_index.index"):
-        index, metadata = build_index()
-    else:
-        index = faiss.read_index("faiss_index.index")
-        with open("metadata.json", "r", encoding="utf-8") as f:
-            import json
-            metadata = json.load(f)
+Respond naturally, professionally, and helpfully.
+Attach relevant project links when possible.
+"""
 
-    query_embedding = model.encode([query])
-    distances, indices = index.search(np.array(query_embedding), k)
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # or "grok-beta" if using Groq
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": request.message}
+            ],
+            temperature=0.7,
+            max_tokens=500
+        )
+        return {"response": response.choices[0].message.content}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-    results = []
-    for idx, dist in zip(indices[0], distances[0]):
-        if idx == -1:
-            continue
-        results.append({
-            "text": metadata[idx]["text"],
-            "source": metadata[idx]["source"],
-            "distance": float(dist)
-        })
-    return results
-
-# Simple prompt injection check
-def detect_injection(text: str) -> bool:
-    blocked = [
-        "ignore previous instructions",
-        "override system",
-        "drop table",
-        "system prompt",
-        "forget all previous",
-        "jailbreak",
-        "developer mode"
-    ]
-    return any(p in text.lower() for p in blocked)
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
