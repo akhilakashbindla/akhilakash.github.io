@@ -1,4 +1,4 @@
-// js/chat.js - Cipher AI Assistant (name prompt, page context, history persistence)
+// js/chat.js - Cipher AI Assistant (name asked only once, remembers forever, page context)
 
 document.addEventListener('DOMContentLoaded', () => {
   const chatWidget = document.getElementById('chat-widget');
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatSend = document.getElementById('chat-send');
   const chatMessages = document.getElementById('chat-messages');
 
-  // Get current page name for context
+  // Get current page for context
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   let pageContext = '';
   if (currentPage === 'portfolio.html') pageContext = 'You are currently viewing the Portfolio page.';
@@ -16,9 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
   else if (currentPage === 'site-security.html') pageContext = 'You are viewing the Site Security Architecture page.';
   else pageContext = 'You are on the homepage.';
 
-  // Load or create visitor name & chat history
+  // Load saved data from localStorage
   let visitorName = localStorage.getItem('visitorName') || '';
   let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+  let nameAsked = localStorage.getItem('nameAsked') === 'true'; // Flag to prevent asking twice
 
   // Load previous chat history
   function loadChatHistory() {
@@ -47,27 +48,33 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // Auto-open chat on first visit or if history exists
+  // Auto-open chat (only if not previously closed)
   if (!localStorage.getItem('chatClosed')) {
     setTimeout(() => {
       if (chatWidget) {
         chatWidget.classList.add('visible');
-        if (!visitorName && chatHistory.length === 0) {
+
+        if (!visitorName && !nameAsked) {
+          // Ask name only once in entire lifetime
           addMessage("Hello! 👋 I'm Cipher, your AI assistant. Before we continue, may I know your name?", false);
+          localStorage.setItem('nameAsked', 'true');
         } else if (visitorName) {
-          addMessage(`Welcome back, ${visitorName}! ${pageContext} How can I help today?`, false);
+          // Welcome back with name + page context
+          addMessage(`Hey ${visitorName}! 👋 Welcome back. ${pageContext} How can I help you today?`, false);
         } else {
-          addMessage(`Hello! ${pageContext} How can I help you explore Akhil's portfolio?`, false);
+          // First time without name
+          addMessage(`Hello! 👋 I'm Cipher. ${pageContext} How can I help you explore Akhil's portfolio?`, false);
         }
+
         loadChatHistory();
       }
     }, 1800);
   } else {
-    // Show minimized button if previously closed
+    // If previously closed, show minimized button
     if (chatMinimizedBtn) chatMinimizedBtn.style.display = 'block';
   }
 
-  // Minimize chat
+  // Minimize chat → show small button
   if (chatMinimize) {
     chatMinimize.addEventListener('click', () => {
       chatWidget.classList.remove('visible');
@@ -93,23 +100,30 @@ document.addEventListener('DOMContentLoaded', () => {
     addMessage(text, true);
     chatInput.value = '';
 
-    // Handle name input
-    if (!visitorName && chatHistory.length <= 2) {
-      visitorName = text.trim();
-      localStorage.setItem('visitorName', visitorName);
-      addMessage(`Nice to meet you, ${visitorName}! ${pageContext} What would you like to know about Akhil's work?`, false);
+    // Handle name input (only when asked)
+    if (!visitorName && chatHistory.length <= 3 && nameAsked) {
+      // Extract name from user's message (simple version)
+      const nameMatch = text.match(/(?:my name is|i am|im|name['s]?|call me)\s+([a-zA-Z\s]+)/i);
+      if (nameMatch && nameMatch[1]) {
+        visitorName = nameMatch[1].trim().split(' ')[0]; // take first word as name
+        localStorage.setItem('visitorName', visitorName);
+        addMessage(`Nice to meet you, ${visitorName}! 👋 ${pageContext} How's your day going?`, false);
+      } else {
+        // If no clear name, ask again once
+        addMessage("Sorry, I didn't catch your name. Could you please tell me? 😊", false);
+      }
       return;
     }
 
-    // Fake smart response (later backend)
+    // Normal smart response (fake for now)
     setTimeout(() => {
-      let reply = `Hi ${visitorName || 'there'}! Ask me about Akhil's projects, skills, or security architecture.`;
+      let reply = `Hey ${visitorName || 'there'}! How can I assist you today?`;
       if (text.toLowerCase().includes('project') || text.toLowerCase().includes('usb') || text.toLowerCase().includes('gnn')) {
-        reply = `Sure, ${visitorName}! Akhil has built USB Rubber Ducky Defender (malicious USB detection with ML) and GNN-DTA for 5G intrusion detection. Want more details?`;
+        reply = `Sure, ${visitorName}! Akhil has built USB Rubber Ducky Defender and GNN-DTA for 5G intrusion detection. Want more details?`;
+      } else if (text.toLowerCase().includes('hello') || text.toLowerCase().includes('hi')) {
+        reply = `Hi ${visitorName || ''}! Great to see you again. ${pageContext} What's on your mind?`;
       } else if (text.toLowerCase().includes('security') || text.toLowerCase().includes('owasp')) {
-        reply = `Akhil's portfolio is secured with layered defenses against OWASP Top 10 and prompt injection. Check the Site Security Architecture page for full details.`;
-      } else if (text.toLowerCase().includes('skill') || text.toLowerCase().includes('know')) {
-        reply = `${visitorName}, Akhil is skilled in Penetration Testing (Nmap, Metasploit), AI/ML Security, Secure Coding (Python, Rust), and Network Defense.`;
+        reply = `Akhil's portfolio is secured with layered defenses against OWASP Top 10 and prompt injection. Check the Site Security Architecture page!`;
       }
       addMessage(reply, false);
     }, 800);
