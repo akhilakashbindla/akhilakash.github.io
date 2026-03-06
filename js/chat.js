@@ -1,4 +1,4 @@
-// js/chat.js - Cipher AI Assistant (name asked only once, remembers forever, page context)
+// js/chat.js - Cipher AI Assistant (advanced: name once, page context, history persistence)
 
 document.addEventListener('DOMContentLoaded', () => {
   const chatWidget = document.getElementById('chat-widget');
@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
   else if (currentPage === 'site-security.html') pageContext = 'You are viewing the Site Security Architecture page.';
   else pageContext = 'You are on the homepage.';
 
-  // Load saved data from localStorage
+  // Load saved data
   let visitorName = localStorage.getItem('visitorName') || '';
   let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-  let nameAsked = localStorage.getItem('nameAsked') === 'true'; // Flag to prevent asking twice
+  let nameAsked = localStorage.getItem('nameAsked') === 'true';
 
-  // Load previous chat history
+  // Load chat history
   function loadChatHistory() {
     chatMessages.innerHTML = '';
     chatHistory.forEach(msg => {
@@ -55,14 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
         chatWidget.classList.add('visible');
 
         if (!visitorName && !nameAsked) {
-          // Ask name only once in entire lifetime
           addMessage("Hello! 👋 I'm Cipher, your AI assistant. Before we continue, may I know your name?", false);
           localStorage.setItem('nameAsked', 'true');
         } else if (visitorName) {
-          // Welcome back with name + page context
-          addMessage(`Hey ${visitorName}! 👋 Welcome back. ${pageContext} How can I help you today?`, false);
+          addMessage(`Hey ${visitorName}! 👋 Welcome back. ${pageContext} How's your day going?`, false);
         } else {
-          // First time without name
           addMessage(`Hello! 👋 I'm Cipher. ${pageContext} How can I help you explore Akhil's portfolio?`, false);
         }
 
@@ -70,11 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, 1800);
   } else {
-    // If previously closed, show minimized button
     if (chatMinimizedBtn) chatMinimizedBtn.style.display = 'block';
   }
 
-  // Minimize chat → show small button
+  // Minimize chat
   if (chatMinimize) {
     chatMinimize.addEventListener('click', () => {
       chatWidget.classList.remove('visible');
@@ -100,22 +96,20 @@ document.addEventListener('DOMContentLoaded', () => {
     addMessage(text, true);
     chatInput.value = '';
 
-    // Handle name input (only when asked)
+    // Handle name input
     if (!visitorName && chatHistory.length <= 3 && nameAsked) {
-      // Extract name from user's message (simple version)
       const nameMatch = text.match(/(?:my name is|i am|im|name['s]?|call me)\s+([a-zA-Z\s]+)/i);
       if (nameMatch && nameMatch[1]) {
-        visitorName = nameMatch[1].trim().split(' ')[0]; // take first word as name
+        visitorName = nameMatch[1].trim().split(' ')[0];
         localStorage.setItem('visitorName', visitorName);
         addMessage(`Nice to meet you, ${visitorName}! 👋 ${pageContext} How's your day going?`, false);
       } else {
-        // If no clear name, ask again once
-        addMessage("Sorry, I didn't catch your name. Could you please tell me? 😊", false);
+        addMessage("Sorry, I didn't catch that. Could you please tell me your name? 😊", false);
       }
       return;
     }
 
-    // Normal smart response (fake for now)
+    // Fake smart response (later backend)
     setTimeout(() => {
       let reply = `Hey ${visitorName || 'there'}! How can I assist you today?`;
       if (text.toLowerCase().includes('project') || text.toLowerCase().includes('usb') || text.toLowerCase().includes('gnn')) {
