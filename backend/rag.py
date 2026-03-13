@@ -4,16 +4,17 @@ from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.utils import embedding_functions
 import os
+import json
 
+# Embedding model
 model = SentenceTransformer('all-MiniLM-L6-v2')
 ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name='all-MiniLM-L6-v2')
 
+# Chroma client (persistent on disk)
 client = chromadb.PersistentClient(path="./chroma_db")
 
-collection = client.get_or_create_collection(
-    name="portfolio_knowledge",
-    embedding_function=ef
-)
+# Collection name
+COLLECTION_NAME = "portfolio_knowledge"
 
 def load_documents():
     documents = []
@@ -27,21 +28,42 @@ def load_documents():
     return documents, sources
 
 def build_index():
-    documents, sources = load_documents()
-    if not documents:
-        raise ValueError("No documents found")
-
-    # Add to Chroma (idempotent)
-    collection.add(
-        documents=documents,
-        metadatas=[{"source": src} for src in sources],
-        ids=[f"doc_{i}" for i in range(len(documents))]
+    collection = client.get_or_create_collection(
+        name=COLLECTION_NAME,
+        embedding_function=ef
     )
 
+    # Only add if empty (idempotent)
+    if collection.count() == 0:
+        documents, sources = load_documents()
+        if not documents:
+            raise ValueError("No documents found in data/")
+
+        collection.add(
+            documents=documents,
+            metadatas=[{"source": src} for src in sources],
+            ids=[f"doc_{i}" for i in range(len(documents))]
+        )
+        print(f"Added {len(documents)} documents to Chroma collection")
+
 def retrieve(query: str, k: int = 3):
-    build_index()  # Ensure index exists
-    results = collection.query(query_texts=[query], n_results=k)
+    build_index()  # Ensure collection exists
+    collection = client.get_collection(name=COLLECTION_NAME)
+
+    results = collection.query(
+        query_texts=[query],
+        n_results=k
+    )
+
     return [
-        {"text": doc, "source": meta["source"]}
-        for doc, meta in zip(results["documents"][0], results["metadatas"][0])
+        {
+            "text": doc,
+            "source": meta["source"],
+            "distance": dist
+        }
+        for doc, meta, dist in zip(
+            results["documents"][0],
+            results["metadatas"][0],
+            results["distances"][0]
+        )
     ]
