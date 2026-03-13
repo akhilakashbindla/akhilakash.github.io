@@ -1,15 +1,20 @@
-# backend/rag.py - Basic RAG with FAISS
+# backend/rag.py - RAG with Chroma (pure Python, no compilation)
 
 from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
-from typing import List, Dict
+import chromadb
+from chromadb.utils import embedding_functions
 import os
 
-# Load embedding model (all-MiniLM-L6-v2 is fast & good)
 model = SentenceTransformer('all-MiniLM-L6-v2')
+ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name='all-MiniLM-L6-v2')
 
-# Load documents from data folder
+client = chromadb.PersistentClient(path="./chroma_db")
+
+collection = client.get_or_create_collection(
+    name="portfolio_knowledge",
+    embedding_function=ef
+)
+
 def load_documents():
     documents = []
     sources = []
@@ -21,61 +26,22 @@ def load_documents():
                 sources.append(filename)
     return documents, sources
 
-# Build or load vector index
 def build_index():
     documents, sources = load_documents()
     if not documents:
-        raise ValueError("No documents found in data folder")
+        raise ValueError("No documents found")
 
-    embeddings = model.encode(documents, show_progress_bar=True)
-    dimension = embeddings.shape[1]
+    # Add to Chroma (idempotent)
+    collection.add(
+        documents=documents,
+        metadatas=[{"source": src} for src in sources],
+        ids=[f"doc_{i}" for i in range(len(documents))]
+    )
 
-    index = faiss.IndexFlatL2(dimension)
-    index.add(np.array(embeddings))
-
-    # Save metadata
-    metadata = [{"source": src, "text": doc} for src, doc in zip(sources, documents)]
-    faiss.write_index(index, "faiss_index.index")
-    with open("metadata.json", "w", encoding="utf-8") as f:
-        import json
-        json.dump(metadata, f)
-
-    return index, metadata
-
-# Retrieve relevant chunks
 def retrieve(query: str, k: int = 3):
-    if not os.path.exists("faiss_index.index"):
-        index, metadata = build_index()
-    else:
-        index = faiss.read_index("faiss_index.index")
-        with open("metadata.json", "r", encoding="utf-8") as f:
-            import json
-            metadata = json.load(f)
-
-    query_embedding = model.encode([query])
-    distances, indices = index.search(np.array(query_embedding), k)
-
-    results = []
-    for idx, dist in zip(indices[0], distances[0]):
-        if idx == -1:
-            continue
-        results.append({
-            "text": metadata[idx]["text"],
-            "source": metadata[idx]["source"],
-            "distance": float(dist)
-        })
-    return results
-
-# Simple prompt injection check
-def detect_injection(text: str) -> bool:
-    blocked = [
-        "ignore previous instructions",
-        "override system",
-        "drop table",
-        "system prompt",
-        "forget all previous",
-        "jailbreak",
-        "developer mode"
+    build_index()  # Ensure index exists
+    results = collection.query(query_texts=[query], n_results=k)
+    return [
+        {"text": doc, "source": meta["source"]}
+        for doc, meta in zip(results["documents"][0], results["metadatas"][0])
     ]
-    return any(p in text.lower() for p in blocked)
-
