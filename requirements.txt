@@ -1,8 +1,8 @@
-fastapi==0.115.0
-uvicorn==0.30.6
-pydantic==2.5.3
+fastapi==0.104.1          # compatible with pydantic 2.4
+uvicorn==0.23.2
+pydantic==2.4.2           # last version with full wheels, no Rust compile
 groq==0.11.0
 python-dotenv==1.0.1
-sentence-transformers==3.1.1
-chromadb==0.5.11
-numpy==1.26.4
+sentence-transformers==2.2.2
+faiss-cpu==1.7.4          # older but has wheels for Python 3.10–3.12
+numpy==1.24.4             # compatible with faiss 1.7.4
