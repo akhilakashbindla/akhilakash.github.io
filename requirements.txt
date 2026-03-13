@@ -1,8 +1,8 @@
 fastapi==0.115.0
 uvicorn==0.30.6
-pydantic==2.5.3                # <--- pinned to version with no Rust compile issues on Render
+pydantic==2.5.3
 groq==0.11.0
 python-dotenv==1.0.1
 sentence-transformers==3.1.1
-faiss-cpu==1.8.0.post1         # newer patch with better wheel support
+chromadb==0.5.11
 numpy==1.26.4
